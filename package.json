@@ -7,5 +7,8 @@
     "build": "echo Running Build",
     "test": "echo Running Tests"
   },
-  "author": "Kush Saraiya"
+  "author": "Kush Saraiya",
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  }
 }
