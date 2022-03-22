@@ -1,0 +1,58 @@
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  ApiGatewayEndpointType:
+    Type: String
+  TargetEnvironment:
+    Type: String
+
+
+Mappings:
+  EnvironmentVariables:
+    dev:
+      LOGLEVEL: DEBUG
+    qa:
+      LOGLEVEL: INFO
+    prod:
+      LOGLEVEL: WARN
+
+Resources:
+  DemoApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
+      EndpointConfiguration:
+        Type:
+          Ref: ApiGatewayEndpointType
+  DemoLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/index.handler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          DATABASE_URL: !Sub 'https://dynamodb.${AWS::Region}.amazonaws.com/demo'
+          LOG_LEVEL: !FindInMap [ EnvironmentVariables, Ref: TargetEnvironment, LOGLEVEL ]
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /orders
+            Method: get
+            RestApiId:
+              Ref: DemoApiGateway
+        PutEvent:
+          Type: Api
+          Properties:
+            Path: /orders
+            Method: put
+            RestApiId:
+              Ref: DemoApiGateway
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /orders
+            Method: post
+            RestApiId:
+              Ref: DemoApiGateway

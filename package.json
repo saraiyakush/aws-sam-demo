@@ -1,0 +1,11 @@
+{
+  "name": "aws-sam-demo",
+  "version": "1.0.0",
+  "description": "AWS SAM Demo Project",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "echo Running Build",
+    "test": "echo Running Tests"
+  },
+  "author": "Kush Saraiya"
+}
