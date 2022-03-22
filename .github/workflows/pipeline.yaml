@@ -18,7 +18,7 @@ jobs:
         run: sam build
       
       - name: Package
-        run: sam package --resolve-s3 --output-template-file output-template.yaml
+        run: sam package --resolve-s3 --region ap-south-1 --output-template-file output-template.yaml
       
       - name: Deploy
         run: sam deploy --stack-name AwsSamDemo --template-file output-template.yaml --region ap-south-1 --capabilities CAPABILITY_IAM --parameter-overrides ApiGatewayEndpointType=REGIONAL TargetEnvironment=prod
